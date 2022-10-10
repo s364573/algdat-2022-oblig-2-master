@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 
+
 public class DobbeltLenketListe<T> implements Liste<T> {
 
     /**
@@ -40,8 +41,36 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 
-    public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+    public DobbeltLenketListe(T[] a) {  //Konstruktør
+
+        if (a == null) {
+            throw new NullPointerException();
+        }
+
+        Node temp;
+        if (a.length > 0) {
+            int i = 0;
+            for (; i < a.length; i++) { //Finner første element i lista som ikke er null og lager ett hode
+                if (a[i] != null) {
+
+                    hode = new Node<>(a[i]);
+                    antall++;
+                    break;
+                }
+            }
+
+            temp = hode;
+            //Lager resten av listen
+            i++;
+            for (; i < a.length; i++) {
+                if (a[i] != null) {
+                    temp.neste = new Node<>(a[i], temp, null);
+                    temp = temp.neste;
+                    antall++;
+                }
+            }
+
+        }
     }
 
     public Liste<T> subliste(int fra, int til) {
@@ -50,12 +79,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+        return antall;
     }
 
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
+
+        if (hode == null){
+            return true;
+        }
+        return false;
+
     }
 
     @Override
