@@ -139,7 +139,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        Node<T> temp = hode;
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        if (tom()){
+            sb.append("]");
+            return sb.toString();
+        }
+        else{
+            sb.append(temp.verdi);
+            temp = temp.neste;
+        while (temp!=null){
+            sb.append(", ");
+            sb.append(temp.verdi);
+            temp = temp.neste;
+        }
+        }
+        sb.append("]");
+
+        return sb.toString();
     }
 
     public String omvendtString() {
