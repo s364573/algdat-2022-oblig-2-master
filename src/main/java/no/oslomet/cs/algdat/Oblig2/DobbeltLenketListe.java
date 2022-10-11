@@ -80,7 +80,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         fratilKontroll(antall,fra,til);
 
-        Liste<T> resultat = new DobbeltLenketListe<T>();
+        Liste<T> resultat = new DobbeltLenketListe<>();
         Node<T> fraNode;
         fraNode = finnNode(fra);
         int lengde = til-fra;
@@ -117,15 +117,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (hode == null){
             return true;
         }
-        return false;
-
+        else{
+            return false;
+        }
     }
 
     @Override
     public boolean leggInn(T verdi) {
 
         Objects.requireNonNull(verdi);
-        Node<T> nyNode = new Node<T>(verdi,hale,null);
+        Node<T> nyNode = new Node<>(verdi,hale,null);
 
         if (tom()){ //Lager nytt hode hvis tom
             hode = nyNode;
@@ -187,7 +188,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+        Node<T> temp;
+        temp = hode;
+        for (int i = 0; i < antall; i++){ //looper gjennom hver node og sjekker verdien opp mot input
+            if (temp.verdi.equals(verdi)){
+                return i;
+            }
+            temp = temp.neste;
+        }
+        //Hvis inputverdien er null eller ikke i lista vil det returnere -1
+        return -1;
     }
 
     @Override
