@@ -6,7 +6,7 @@ package no.oslomet.cs.algdat.Oblig2;
 
 import java.util.Comparator;
 import java.util.Iterator;
-
+import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -38,7 +38,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+        hode = null;
+        hale = null;
+
+        antall = 0;
+        endringer = 0;
     }
 
     public DobbeltLenketListe(T[] a) {  //Konstruktør
@@ -94,7 +98,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException();
+
+        Objects.requireNonNull(verdi);
+        Node<T> nyNode = new Node<T>(verdi,hale,null);
+
+        if (tom()){
+            hode = nyNode;
+            hale = hode;
+            antall++;
+            endringer++;
+        }
+        else{
+            hale.neste = nyNode;
+            hale = hale.neste;
+            antall++;
+            endringer++;
+        }
+        return true;
+
+
+
+
+
+
     }
 
     @Override
