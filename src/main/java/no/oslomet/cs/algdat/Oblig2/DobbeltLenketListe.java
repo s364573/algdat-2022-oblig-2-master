@@ -101,7 +101,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Objects.requireNonNull(verdi);
         Node<T> nyNode = new Node<T>(verdi,hale,null);
 
-        if (tom()){
+        if (tom()){ //Lager nytt hode hvis tom
             hode = nyNode;
             hale = hode;
             antall++;
@@ -130,9 +130,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     //Hjelpemetode
     private Node<T> finnNode(int indeks){
 
+        //Lager en variabel som skiller mellom sidene indekssøket skal skje
         int side = antall/2;
         Node<T> temp;
 
+        //Hvis indeks er under halvparten av lengden vil vi starte fra hode og gå bakover mot halen
         if (indeks < side){
             temp = hode;
             for (int i = 0; i< indeks;i++){
@@ -140,9 +142,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
             return temp;
         }
-        else {
+        else { //Hvis indeks er over halvparten av lengen vil vi starte fra halen og gå framover mot hode
             temp = hale;
-            for (int i = 0; i< indeks;i++){
+            for (int i = antall-1; i > indeks;i--){
                 temp = temp.forrige;
             }
             return temp;
@@ -151,7 +153,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        Node<T> temp;
+        temp = finnNode(indeks);
+        return temp.verdi;
     }
 
     @Override
