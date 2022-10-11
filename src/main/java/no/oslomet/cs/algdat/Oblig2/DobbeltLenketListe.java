@@ -10,7 +10,6 @@ import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
-
     /**
      * Node class
      *
@@ -126,6 +125,28 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public boolean inneholder(T verdi) {
         throw new UnsupportedOperationException();
+    }
+
+    //Hjelpemetode
+    private Node<T> finnNode(int indeks){
+
+        int side = antall/2;
+        Node<T> temp;
+
+        if (indeks < side){
+            temp = hode;
+            for (int i = 0; i< indeks;i++){
+                temp = temp.neste;
+            }
+            return temp;
+        }
+        else {
+            temp = hale;
+            for (int i = 0; i< indeks;i++){
+                temp = temp.forrige;
+            }
+            return temp;
+        }
     }
 
     @Override
