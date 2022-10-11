@@ -116,11 +116,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         return true;
 
-
-
-
-
-
     }
 
     @Override
@@ -165,48 +160,47 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        Node<T> temp = hode;
+        //Hvis liste tom returner tom String
+        if (tom()) return "[]";
+        Node<T> tempNode = hode;
+
+        //Bruker StringBuilder
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
-        if (tom()){
-            sb.append("]");
-            return sb.toString();
-        }
-        else{
-            sb.append(temp.verdi);
-            temp = temp.neste;
-        while (temp!=null){
+
+        sb.append(tempNode.verdi);
+        tempNode = tempNode.neste;
+
+        //Looper gjennom hver av nodene og lagger til alle som ikke er null
+        while (tempNode!=null){
             sb.append(", ");
-            sb.append(temp.verdi);
-            temp = temp.neste;
-        }
+            sb.append(tempNode.verdi);
+            tempNode = tempNode.neste;
         }
         sb.append("]");
-
         return sb.toString();
     }
 
     public String omvendtString() {
-        Node<T> temp = hale;
+        //Hvis liste tom returner tom String
+        if (tom()) return "[]";
+        Node<T> tempNode = hale;
+
+        //Bruker StringBuilder
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
-        if (tom()){
-            sb.append("]");
-            return sb.toString();
-        }
-        else{
-            sb.append(temp.verdi);
-            temp = temp.forrige;
-            while (temp!=null){
-                sb.append(", ");
-                sb.append(temp.verdi);
-                temp = temp.forrige;
-            }
+        sb.append(tempNode.verdi);
+        tempNode = tempNode.forrige;
+
+        //Looper gjennom hver av nodene og lagger til alle som ikke er null
+        while (tempNode!=null){
+            sb.append(", ");
+            sb.append(tempNode.verdi);
+            tempNode = tempNode.forrige;
         }
         sb.append("]");
-
         return sb.toString();
     }
 
