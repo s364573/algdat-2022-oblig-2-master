@@ -47,7 +47,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             throw new NullPointerException();
         }
 
-        Node temp;
+
         if (a.length > 0) {
             int i = 0;
             for (; i < a.length; i++) { //Finner første element i lista som ikke er null og lager ett hode
@@ -59,13 +59,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 }
             }
 
-            temp = hode;
+            hale = hode;
             //Lager resten av listen
             i++;
             for (; i < a.length; i++) {
                 if (a[i] != null) {
-                    temp.neste = new Node<>(a[i], temp, null);
-                    temp = temp.neste;
+                    hale.neste = new Node<>(a[i], hale, null);
+                    hale = hale.neste;
                     antall++;
                 }
             }
@@ -162,7 +162,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+        Node<T> temp = hale;
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        if (tom()){
+            sb.append("]");
+            return sb.toString();
+        }
+        else{
+            sb.append(temp.verdi);
+            temp = temp.forrige;
+            while (temp!=null){
+                sb.append(", ");
+                sb.append(temp.verdi);
+                temp = temp.forrige;
+            }
+        }
+        sb.append("]");
+
+        return sb.toString();
     }
 
     @Override
