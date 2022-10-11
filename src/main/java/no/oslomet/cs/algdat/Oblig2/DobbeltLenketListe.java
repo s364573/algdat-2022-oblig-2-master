@@ -153,6 +153,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
+        indeksKontroll(indeks,false);
         Node<T> temp;
         temp = finnNode(indeks);
         return temp.verdi;
