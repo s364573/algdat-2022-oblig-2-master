@@ -242,12 +242,98 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new UnsupportedOperationException();
+        if (verdi == null) {
+            return false;
+        }
+
+        Node<T> temp = hode;
+
+        //Fjerner første node i listen
+        if (verdi.equals(temp.verdi)) {
+            if (temp.neste != null) {
+                hode = temp.neste;
+                hode.forrige = null;
+            } else {
+                hode = null;
+                hale = null;
+            }
+            antall--;
+            endringer++;
+            return true;
+        }
+
+        //Fjerner siste node i listen
+        temp = hale;
+        if (verdi.equals(temp.verdi)) {
+            hale = temp.forrige;
+            hale.neste = null;
+            antall--;
+            endringer++;
+            return true;
+        }
+        //Fjerne node immellom
+        temp = hode.neste;
+        for (; temp!= null; temp = temp.neste) {
+            if (verdi.equals(temp.verdi)) {
+
+                //Gjør at nodene til begge sider av noden som skal fjernes nå peker mot hverandre
+                temp.forrige.neste = temp.neste;
+                temp.neste.forrige = temp.forrige;
+
+                antall--;
+                endringer++;
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks,false);
+
+        Node<T> temp = hode;
+        T verdi;
+
+        //Fjerne første node i listen
+        if (indeks == 0){
+            verdi = temp.verdi;
+
+            if (temp.neste != null){
+                hode = temp.neste;
+                hode.forrige = null;
+            }
+            else {
+                hode = null;
+                hale = null;
+            }
+        }
+
+        //Fjerne siste noden i listen
+        else if (indeks == antall-1){
+            temp = hale;
+            verdi = hale.verdi;
+
+            hale = temp.forrige;
+            hale.neste = null;
+        }
+
+
+        //Fjerne noden imellom
+        else {
+            for (int i = 0; i < indeks; i++){
+                temp = temp.neste;
+            }
+            verdi = temp.verdi;
+
+            //Gjør at nodene til begge sider av noden som skal fjernes nå peker mot hverandre
+            temp.forrige.neste = temp.neste;
+            temp.neste.forrige = temp.forrige;
+        }
+
+        antall--;
+        endringer++;
+        return verdi;
     }
 
     @Override
