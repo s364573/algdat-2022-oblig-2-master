@@ -146,7 +146,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
+        Objects.requireNonNull(verdi, "Verdi er null");
 
+        if(indeks > antall){
+            throw new IndexOutOfBoundsException("Indeks er større en antall noder i listen");
+        }
+        else if (indeks < 0){
+            throw new IndexOutOfBoundsException("Indeks kan ikke være under 0");
+        }
+
+        //Hvis antall og indeks = 0 vil listen være tom og da vil noden legges til som head
+        if (antall == 0 && indeks == 0){
+            hode = new Node<T>(verdi,null,null);
+        }
+        //Hvis indeks = 0 men det finnes allerede noder i listen
+        else if(indeks == 0){
+            hode = new Node<T>(verdi,null,hode);
+            hode.neste.forrige = hode;
+        }
+        antall++;
+        endringer++;
     }
 
     @Override
