@@ -10,16 +10,6 @@ import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
-
-    public static void main(String[] args) {
-        String[] a = {"Hei","Voff","Knegg"};
-        DobbeltLenketListe<String> liste = new DobbeltLenketListe<String>(a);
-        liste.fjern("Hei");
-        for (int i = 0; i < liste.antall; i++) {
-            System.out.print(liste.hent(i)+" ");
-        }
-
-    }
     /**
      * Node class
      *
