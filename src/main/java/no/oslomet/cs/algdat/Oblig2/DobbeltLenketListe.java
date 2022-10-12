@@ -4,9 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -461,20 +459,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next() {
-            throw new UnsupportedOperationException();
+
+            //Hvis neste i lista er null vil det komme exception
+            if (!hasNext()) {
+                throw new NoSuchElementException("Du er på slutten av listen");
+            }
+            //Hvis antall endringer og antall iteratorendringer er ulike vil det også komme en exception
+            else if (endringer != iteratorendringer) {
+                throw new ConcurrentModificationException("antallEndringer(" + endringer + ") != forventetAntallEndringer(" + iteratorendringer + ")");
+            }
+
+            Objects.requireNonNull(denne, "Kan ikke være null");
+
+            //gir temp verdi og går til neste node
+            fjernOK = true;
+            T temp = denne.verdi;
+            denne = denne.neste;
+
+            return temp;
         }
 
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+
 
     } // class DobbeltLenketListeIterator
-
-    public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
-    }
-
 } // class DobbeltLenketListe
 
 
