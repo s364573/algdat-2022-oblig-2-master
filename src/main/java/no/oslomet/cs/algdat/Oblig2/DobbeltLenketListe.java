@@ -10,6 +10,16 @@ import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
+
+    public static void main(String[] args) {
+        String[] a = {"Hei","Voff","Knegg"};
+        DobbeltLenketListe<String> liste = new DobbeltLenketListe<String>(a);
+        liste.fjern("Hei");
+        for (int i = 0; i < liste.antall; i++) {
+            System.out.print(liste.hent(i)+" ");
+        }
+
+    }
     /**
      * Node class
      *
@@ -128,7 +138,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Objects.requireNonNull(verdi);
         Node<T> nyNode = new Node<>(verdi,hale,null);
 
-        if (tom()){ //Lager nytt hode hvis tom
+        if (tom()){//Lager nytt hode hvis tom
             hode = nyNode;
             hale = hode;
             antall++;
@@ -146,24 +156,46 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        Objects.requireNonNull(verdi, "Verdi er null");
+        // Sjekk for null
+        Objects.requireNonNull(verdi, "Verdien kan ikke være et null-objekt");
 
-        if(indeks > antall){
-            throw new IndexOutOfBoundsException("Indeks er større en antall noder i listen");
+
+        //Sjekker om indeks ikke er OutOfBounds
+        if (indeks < 0) {
+            throw new IndexOutOfBoundsException("Indeks " + indeks + " er negativ!");
         }
-        else if (indeks < 0){
-            throw new IndexOutOfBoundsException("Indeks kan ikke være under 0");
+        else if (indeks > antall){
+            throw new IndexOutOfBoundsException("Indeks " + indeks + " > antall(" + antall + ") noder!");
         }
 
-        //Hvis antall og indeks = 0 vil listen være tom og da vil noden legges til som head
-        if (antall == 0 && indeks == 0){
-            hode = new Node<T>(verdi,null,null);
+
+
+        //Bruker denne om listen er tom
+        if (antall == 0) {
+            hode = new Node<T>(verdi, null, null);
+            hale = hode;
+
         }
-        //Hvis indeks = 0 men det finnes allerede noder i listen
-        else if(indeks == 0){
-            hode = new Node<T>(verdi,null,hode);
+        //Legges til først i listen
+        else if (indeks == 0) {
+            hode = new Node<T>(verdi, null, hode);
             hode.neste.forrige = hode;
         }
+        // Legges sist i listen
+        else if (indeks == antall) {
+            hale = new Node<T>(verdi, hale, null);
+            hale.forrige.neste = hale;
+        }
+        //Går gjennom med for-loop og finner posisjon til indeks og legger inn node
+        else {
+            Node<T> tempNode = hode;
+            for (int i = 0; i < indeks; i++) {
+                tempNode = tempNode.neste;
+            }
+            tempNode = new Node<T>(verdi, tempNode.forrige, tempNode);
+            tempNode.neste.forrige = tempNode.forrige.neste = tempNode;
+        }
+
         antall++;
         endringer++;
     }
@@ -227,11 +259,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
+        indeksKontroll(indeks,false);
         //Sjekker at nyverdi ikke null
         Objects.requireNonNull(nyverdi);
 
-        Node<T> temp;
-        temp = finnNode(indeks); //finner indeks og legger til node
+        Node<T> temp = finnNode(indeks); //finner indeks og legger til node
 
         T gammelVerdi = temp.verdi;
         endringer++;
